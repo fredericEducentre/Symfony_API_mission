@@ -3,12 +3,31 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\QueryParameter;
+use App\Controller\RecipeController;
 use App\Repository\RecipeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new Get(name: 'app_recipe',  uriTemplate: '/', controller: RecipeController::class),
+        new Put(),
+        new Delete(),
+        new GetCollection(),
+        new Post(),
+    ]
+)]
+#[QueryParameter(
+    key: 'name',
+)]
 class Recipe
 {
     #[ORM\Id]
